@@ -232,6 +232,9 @@ func (t Transport) dialWithConn2(network, address string, _ *tls.Config) (net.Co
 
 func closeWithErr(conn net.Conn, e error) error {
 	const connCloseErrMsg = "failed to close connection: %v, with err: %v"
+	if conn == nil {
+		return errors.New("failed to close <nil> connection")
+	}
 	if err := conn.Close(); err != nil {
 		return fmt.Errorf(connCloseErrMsg, err, e)
 	}

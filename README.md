@@ -1,6 +1,6 @@
-<div align="center">
+# SssTLS
+
 <img src="assets/logo.svg" alt="ssstls" width="100%"/>
-</div>
 <br>
 
 Golang library to spoof Ja3 fingeprints compatible with standart http interface. Inspired with [CycleTLS](https://github.com/Danny-Dasilva/CycleTLS/tree/main) and [ja3transport](https://github.com/cucyber/JA3Transport)
