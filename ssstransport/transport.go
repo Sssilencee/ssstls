@@ -166,7 +166,11 @@ func (t *Transport) httpsRoundTrip(req *http.Request) (*http.Response, error) {
 		return transport.RoundTrip(req)
 	}
 
-	conn, err := t.dialTLS("tcp", fmt.Sprintf("%s:%s", req.Host, port))
+	host := req.Host
+	if req.Host == "" {
+		host = req.URL.Host
+	}
+	conn, err := t.dialTLS("tcp", fmt.Sprintf("%s:%s", host, port))
 	if err != nil {
 		return nil, fmt.Errorf("dial TLS: %s", err)
 	}
@@ -233,7 +237,7 @@ func (t Transport) dialWithConn2(network, address string, _ *tls.Config) (net.Co
 func closeWithErr(conn net.Conn, e error) error {
 	const connCloseErrMsg = "failed to close connection: %v, with err: %v"
 	if conn == nil {
-		return errors.New("failed to close <nil> connection")
+		return fmt.Errorf("failed to close <nil> connection, err: %v", e)
 	}
 	if err := conn.Close(); err != nil {
 		return fmt.Errorf(connCloseErrMsg, err, e)
